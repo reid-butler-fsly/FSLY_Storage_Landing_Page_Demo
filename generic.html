@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Massively by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="https://unpkg.com/video.js/dist/video-js.css">
+    <script src="https://unpkg.com/video.js/dist/video.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-http-source-selector/dist/videojs-http-source-selector.min.js"></script>
+</head>
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper" class="fade-in">
+
+        <!-- Intro -->
+        <div id="intro">
+            <h1>This is<br />FASTLY</h1>
+            <p>Did you know Fastly now has its own Object Storage with ZERO Egress?!?! <a href="https://www.fastly.com/blog/build-store-scale-fastly-object-storage-with-zero-egress-costs-here">Come check it out!</a>.</p>
+            <ul class="actions">
+                <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
+            </ul>
+        </div>
+
+        <!-- Header -->
+        <header id="header">
+            <a href="https://www.fastly.com/" class="logo">FASTLY</a>
+        </header>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li class="active"><a href="index.html">Fastly Storage + Video JS</a></li>
+                <li><a href="generic.html">4K VOD Playback</a></li>
+                <li><a href="elements.html">Video Stats Player</a></li>
+            </ul>
+            <ul class="icons">
+               <li><a href="https://github.com/fastly" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                <li><a href="https://twitter.com/fastly" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="https://www.facebook.com/@FastlyEdgeCloud/" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="https://www.instagram.com/fastlyinc/?hl=en" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <article class="post featured">
+                <header class="major">
+                    <h2><a href="#">Stream effortlessly in 4K with Fastly Storage</a></h2>
+                </header>
+                <video
+                    id="my-video-player"
+                    class="video-js"
+                    controls
+                    autoplay
+                    muted
+                    preload="auto"
+                    width="960"
+                    height="540"
+                    data-setup='{"liveui": false}'>
+                    <source src="https://reidfastlystorage.global.ssl.fastly.net/reidtestbucket/VOD/TearsOfSteel_HLS/tears_of_steel_4K.m3u8" type="application/x-mpegURL">
+                </video>
+                <script>
+                    var player = videojs('my-video-player');
+
+                    // Ensure quality levels plugin is initialized
+                    player.ready(function() {
+                        player.qualityLevels();
+
+                        // Add the HTTP Source Selector plugin
+                        player.httpSourceSelector({
+                            default: 'auto'
+                        });
+                    });
+
+                    // Start playing
+                    player.play();
+                </script>
+            </article>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+</html>

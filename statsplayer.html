@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Video.js Player with Detailed Stats</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/video.js/dist/video-js.css">
+    <script src="https://unpkg.com/video.js/dist/video.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-http-source-selector/dist/videojs-http-source-selector.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+        #stats {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        #stats h3 {
+            margin-top: 0;
+        }
+        #stats p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        .stat-item span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="video-container">
+        <video id="my-video-player" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay muted preload="auto" width="960" height="540" data-setup='{"liveui": true}'>
+            <source src="https://reidfastlystorage.global.ssl.fastly.net/reidtestbucket/VOD/TearsOfSteel_HLS/tears_of_steel_4K.m3u8" type="application/x-mpegURL">
+        </video>
+    </div>
+    <div id="stats">
+        <h3>Streaming Stats</h3>
+        <div class="stat-item"><span>Playback Time:</span> <span id="playbackTime">0 sec</span></div>
+        <div class="stat-item"><span>Buffered Time:</span> <span id="bufferedTime">0 sec</span></div>
+        <div class="stat-item"><span>Bitrate:</span> <span id="bitrate">N/A kbps</span></div>
+        <div class="stat-item"><span>Resolution:</span> <span id="resolution">N/A</span></div>
+        <div class="stat-item"><span>Dropped Frames:</span> <span id="droppedFrames">0</span></div>
+    </div>
+</div>
+
+<script>
+    const player = videojs('my-video-player');
+
+    player.ready(function() {
+        player.qualityLevels();
+        player.httpSourceSelector({ default: 'auto' });
+
+        const playbackTimeEl = document.getElementById('playbackTime');
+        const bufferedTimeEl = document.getElementById('bufferedTime');
+        const bitrateEl = document.getElementById('bitrate');
+        const resolutionEl = document.getElementById('resolution');
+        const droppedFramesEl = document.getElementById('droppedFrames');
+
+        function updateStats() {
+            const currentTime = player.currentTime();
+            const buffered = player.buffered();
+            const bufferEnd = buffered.length > 0 ? buffered.end(buffered.length - 1) : 0;
+            const qualityLevels = player.qualityLevels();
+            let bitrate = 'N/A';
+            let resolution = 'N/A';
+
+            // Fetch active quality level (bitrate and resolution)
+            for (let i = 0; i < qualityLevels.length; i++) {
+                const level = qualityLevels[i];
+                if (level.enabled) {
+                    bitrate = Math.round(level.bitrate / 1000); // Convert to kbps
+                    resolution = `${level.height}p`;
+                    break;
+                }
+            }
+
+            playbackTimeEl.textContent = `${currentTime.toFixed(2)} sec`;
+            bufferedTimeEl.textContent = `${bufferEnd.toFixed(2)} sec`;
+            bitrateEl.textContent = `${bitrate} kbps`;
+            resolutionEl.textContent = resolution;
+
+            // Mock dropped frames (replace with actual data if available)
+            droppedFramesEl.textContent = Math.floor(Math.random() * 5); // Replace with real metric if available
+        }
+
+        // Update stats on timeupdate
+        player.on('timeupdate', updateStats);
+    });
+</script>
+
+</body>
+</html>

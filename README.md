@@ -1,6 +1,8 @@
 # FSLY_Storage_Landing_Page_Demo
  storage demo for video use cases
 
+Home:  https://reidfastlystorage.global.ssl.fastly.net/reidtestbucket/storage_landing_page/index.html
+
 #### AREAS TO IMPROVE ####
 
 - Get videojs-http-source-selector.js or videojs-contrib-quality-levels.js working for rendition selection. 
